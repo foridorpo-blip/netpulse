@@ -5,6 +5,8 @@
 [![Stars](https://img.shields.io/github/stars/foridorpo-blip/netpulse?style=flat)](https://github.com/foridorpo-blip/netpulse/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+[![Tests](https://github.com/foridorpo-blip/netpulse/actions/workflows/test.yml/badge.svg)](https://github.com/foridorpo-blip/netpulse/actions)
+
 Сайт: https://foridorpo-blip.github.io/netpulse/
 
 Быстрая диагностика сети и VPN из терминала. Один файл, только стандартная библиотека Python — ставится за секунды и работает на Windows, Linux и macOS без прав администратора.
