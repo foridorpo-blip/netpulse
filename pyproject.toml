@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netpulse"
+dynamic = ["version"]
+description = "Быстрая диагностика сети и VPN: IP, TCP-пинг, DNS, TLS, проверка блокировок"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["network", "vpn", "dns", "tls", "ping", "diagnostics", "cli"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Environment :: Console",
+  "Topic :: System :: Networking :: Monitoring",
+]
+
+[project.scripts]
+netpulse = "netpulse.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "netpulse.__version__" }
+
+[tool.setuptools]
+packages = ["netpulse"]
