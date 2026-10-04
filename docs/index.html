@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,65 +7,718 @@
 <meta name="description" content="NetPulse — бесплатная консольная утилита для проверки VPN и сети: публичный IP и страна, TCP-пинг, DNS, срок TLS-сертификата, проверка блокировок сайтов (DNS, IP, DPI). Windows, Linux, macOS.">
 <meta name="keywords" content="проверка vpn, проверить ip, проверка блокировок сайтов, dpi, tcp ping, dns lookup, проверка ssl сертификата, vpn checker, network diagnostics, python cli">
 <meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a0e16">
 <link rel="canonical" href="https://foridorpo-blip.github.io/netpulse/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="NetPulse — проверка VPN, сети и блокировок">
 <meta property="og:description" content="Публичный IP, TCP-пинг, DNS, TLS и проверка блокировок одной командой. Бесплатно, open source.">
 <meta property="og:url" content="https://foridorpo-blip.github.io/netpulse/">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3L29 10.5V21.5L16 29L3 21.5V10.5z' fill='none' stroke='%233ecf8e' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 16h3l2-5 3 11 2.5-6h5.5' fill='none' stroke='%233ecf8e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"NetPulse","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, Linux, macOS","softwareVersion":"1.0.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Консольная утилита для диагностики сети и VPN: IP, TCP-пинг, DNS, TLS, проверка блокировок сайтов.","url":"https://foridorpo-blip.github.io/netpulse/","downloadUrl":"https://github.com/foridorpo-blip/netpulse/releases/latest","codeRepository":"https://github.com/foridorpo-blip/netpulse","license":"https://opensource.org/licenses/MIT"}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1214;--fg:#e6e8e9;--mut:#9aa3a8;--acc:#3ecf8e;--card:#171b1e;--line:#262c30}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
-main{max-width:860px;margin:0 auto;padding:56px 20px}
-h1{font-size:2.4rem;line-height:1.15;margin:0 0 12px}h2{margin-top:44px;font-size:1.4rem}
-p.lead{color:var(--mut);font-size:1.15rem;max-width:640px}
-.btns{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
-a.btn{background:var(--acc);color:#06140d;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:600}
-a.btn.alt{background:transparent;color:var(--fg);border:1px solid var(--line)}
-pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;overflow:auto;font:14px/1.5 ui-monospace,Consolas,monospace}
-table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--line);padding:9px 6px;text-align:left;vertical-align:top}
-code{font-family:ui-monospace,Consolas,monospace;color:var(--acc)}footer{color:var(--mut);margin-top:56px;font-size:.9rem}
-a{color:var(--acc)}
+/* ===== Design tokens ===== */
+:root,
+[data-theme='light'] {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f6;
+  --surface-offset: #e6eaf1;
+  --surface-dynamic: #d3dae6;
+  --divider: #d0d7e2;
+  --border: #c0cad9;
+  --border-strong: #9aa8bd;
+  --text: #1a2233;
+  --text-muted: #5b677d;
+  --text-faint: #8a94a8;
+  --text-inverse: #ffffff;
+  --accent: #0066cc;
+  --accent-hover: #0052a3;
+  --accent-cyan: #0088aa;
+  --accent-violet: #6b3fa0;
+  --accent-pink: #c2185b;
+  --success: #2e7d32;
+  --warning: #e65100;
+  --error: #c62828;
+  --shadow-sm: 0 1px 3px rgba(20,30,50,.08);
+  --shadow-md: 0 4px 16px rgba(20,30,50,.10);
+  --shadow-lg: 0 16px 48px rgba(20,30,50,.14);
+  --shadow-glow: 0 0 24px rgba(0,136,170,.15);
+  --grid: rgba(0,136,170,.06);
+}
+[data-theme='dark'] {
+  --bg: #070b14;
+  --surface: #0d1320;
+  --surface-2: #111a2e;
+  --surface-offset: #0a1018;
+  --surface-dynamic: #16223a;
+  --divider: #1a2538;
+  --border: #1e2d44;
+  --border-strong: #2a3f5f;
+  --text: #e2e8f0;
+  --text-muted: #8b9bb4;
+  --text-faint: #4a5870;
+  --text-inverse: #070b14;
+  --accent: #3ecf8e;
+  --accent-hover: #5be0a4;
+  --accent-cyan: #00d9ff;
+  --accent-violet: #a855f7;
+  --accent-pink: #ec4899;
+  --success: #84cc16;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,.6);
+  --shadow-glow: 0 0 24px rgba(62,207,142,.25);
+  --grid: rgba(62,207,142,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:none;text-size-adjust:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth;scroll-padding-top:80px}
+body{min-height:100dvh;line-height:1.6;font-family:'Space Grotesk','Segoe UI',sans-serif;font-size:16px;color:var(--text);background:var(--bg);overflow-x:hidden}
+img,svg{display:block;max-width:100%;height:auto}
+input,button,textarea,select{font:inherit;color:inherit}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.15;font-weight:700}
+p,li{text-wrap:pretty}
+::selection{background:rgba(62,207,142,.3);color:var(--text)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+button{cursor:pointer;background:none;border:none}
+a,button,input,textarea{transition:color .18s cubic-bezier(.16,1,.3,1),background .18s,border-color .18s,box-shadow .18s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ===== Background ===== */
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,#000 30%,transparent 80%)}
+.bg-scan{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 0%,rgba(62,207,142,.015) 50%,transparent 100%);
+  background-size:100% 4px;opacity:.6;animation:scan 8s linear infinite}
+@keyframes scan{0%{background-position:0 0}100%{background-position:0 100vh}}
+
+/* ===== Header ===== */
+.header{position:sticky;top:0;z-index:50;background:color-mix(in oklab,var(--bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--divider);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+.header--hidden{transform:translateY(-100%)}
+.header--scrolled{box-shadow:var(--shadow-sm)}
+.header__inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none;font-weight:700;font-size:1.25rem}
+.logo svg{color:var(--accent)}
+.logo__accent{color:var(--accent)}
+.nav{display:flex;gap:24px;margin-left:auto}
+.nav__link{color:var(--text-muted);text-decoration:none;font-size:.875rem;font-weight:500;position:relative;padding:4px 0}
+.nav__link:hover{color:var(--text)}
+.nav__link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width .18s}
+.nav__link:hover::after{width:100%}
+.theme-toggle{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;border:1px solid var(--border);color:var(--text-muted);background:var(--surface)}
+.theme-toggle:hover{color:var(--accent);border-color:var(--accent);box-shadow:var(--shadow-glow)}
+.menu-toggle{display:none;flex-direction:column;gap:5px;padding:8px;margin-left:auto}
+.menu-toggle span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:8px;font-size:.875rem;font-weight:600;font-family:'Space Grotesk',sans-serif;text-decoration:none;border:1px solid transparent}
+.btn--primary{background:var(--accent);color:var(--text-inverse);border-color:var(--accent)}
+.btn--primary:hover{background:var(--accent-hover);box-shadow:var(--shadow-glow);transform:translateY(-1px)}
+[data-theme='dark'] .btn--primary{color:#070b14}
+.btn--ghost{background:transparent;color:var(--text);border-color:var(--border-strong)}
+.btn--ghost:hover{border-color:var(--accent);color:var(--accent);box-shadow:var(--shadow-glow)}
+
+/* ===== Hero ===== */
+.hero{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:96px 24px 64px;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;min-height:70vh}
+.hero__badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:9999px;background:color-mix(in oklab,var(--accent) 12%,transparent);border:1px solid color-mix(in oklab,var(--accent) 30%,transparent);font-size:.75rem;font-weight:600;color:var(--accent);margin-bottom:24px}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:currentColor;position:relative}
+.pulse-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:currentColor;opacity:.4;animation:pring 2s ease-out infinite}
+@keyframes pring{0%{transform:scale(.8);opacity:.5}100%{transform:scale(2.5);opacity:0}}
+.hero__title{font-size:clamp(2.5rem,1rem+4vw,4.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px}
+.hero__title-accent{background:linear-gradient(135deg,var(--accent),var(--accent-violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hero__subtitle{font-size:1.125rem;color:var(--text-muted);margin-bottom:32px;max-width:56ch;line-height:1.7}
+.hero__actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px}
+
+/* Status strip */
+.status-strip{display:flex;align-items:center;gap:24px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.status-strip__item{display:flex;flex-direction:column;gap:2px}
+.status-strip__label{font-size:.75rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.status-strip__value{font-family:'JetBrains Mono',monospace;font-size:1.125rem;font-weight:700;color:var(--accent)}
+.status-strip__divider{width:1px;height:32px;background:var(--divider)}
+
+/* Hero visual — pulse ring */
+.hero__visual{position:relative;display:flex;align-items:center;justify-content:center;min-height:400px}
+.pulse-ring{position:relative;width:320px;height:320px;display:flex;align-items:center;justify-content:center}
+.pulse-ring__ring{position:absolute;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:rexpand 3s ease-out infinite}
+.pulse-ring__ring:nth-child(2){animation-delay:1s}
+.pulse-ring__ring:nth-child(3){animation-delay:2s}
+@keyframes rexpand{0%{width:80px;height:80px;opacity:.8}100%{width:320px;height:320px;opacity:0}}
+.pulse-ring__core{position:relative;z-index:1;width:120px;height:120px;border-radius:50%;background:var(--surface);border:2px solid var(--accent);box-shadow:var(--shadow-glow),inset 0 0 24px rgba(62,207,142,.1);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pulse-ring__bpm{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent);line-height:1}
+.pulse-ring__unit{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}
+.waveform{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ===== Sections ===== */
+.section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:80px 24px}
+.section--alt{max-width:none;background:var(--surface-offset);border-top:1px solid var(--divider);border-bottom:1px solid var(--divider)}
+.section--alt>*{max-width:1200px;margin-left:auto;margin-right:auto}
+.section__head{margin-bottom:48px}
+.section__title{font-size:clamp(1.5rem,1.2rem+1.25vw,2.25rem);font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.section__desc{color:var(--text-muted);font-size:1rem;max-width:60ch}
+
+/* ===== Install ===== */
+.install{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;box-shadow:var(--shadow-sm)}
+.install__head{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.install__tabs{display:flex;gap:8px;flex-wrap:wrap}
+.install__tab{padding:8px 16px;border-radius:8px;font-size:.875rem;font-weight:600;color:var(--text-muted);border:1px solid var(--border);background:var(--surface-offset)}
+.install__tab--active{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--accent) 8%,transparent)}
+.install__body{margin-top:20px}
+.install__block{display:none}
+.install__block--active{display:block;animation:fadeIn .3s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.code-block{background:#0a0e16;border:1px solid var(--border-strong);border-radius:8px;padding:16px 20px;overflow:auto;font-family:'JetBrains Mono',monospace;font-size:.875rem;color:#e2e8f0;line-height:1.6}
+.code-block__prompt{color:var(--accent)}
+.code-block__comment{color:var(--text-faint)}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;color:var(--text-muted);border:1px solid var(--border);background:var(--surface);margin-top:12px}
+.copy-btn:hover{color:var(--accent);border-color:var(--accent)}
+.copy-btn--copied{color:var(--success);border-color:var(--success)}
+
+/* ===== Features table ===== */
+.features-table{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.features-table__head{display:grid;grid-template-columns:220px 1fr;gap:16px;padding:16px 24px;background:var(--surface-offset);border-bottom:1px solid var(--border);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--text-faint)}
+.features-table__row{display:grid;grid-template-columns:220px 1fr;gap:16px;padding:20px 24px;border-bottom:1px solid var(--divider);align-items:center;transition:background .18s}
+.features-table__row:last-child{border-bottom:none}
+.features-table__row:hover{background:var(--surface-2)}
+.features-table__cmd{font-family:'JetBrains Mono',monospace;font-size:.875rem;color:var(--accent);font-weight:500}
+.features-table__desc{color:var(--text-muted);font-size:.9375rem}
+code{font-family:'JetBrains Mono',monospace;font-size:.875em;color:var(--accent)}
+
+/* ===== Demo terminal ===== */
+.terminal{background:#0a0e16;border:1px solid var(--border-strong);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-lg);font-family:'JetBrains Mono',monospace}
+.terminal__bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#11161f;border-bottom:1px solid #1e2d44}
+.terminal__dot{width:12px;height:12px;border-radius:50%}
+.terminal__dot--red{background:#ff5f56}.terminal__dot--yellow{background:#ffbd2e}.terminal__dot--green{background:#27c93f}
+.terminal__title{margin-left:12px;font-size:.75rem;color:#6b7c93}
+.terminal__body{padding:16px;height:360px;overflow-y:auto;font-size:.875rem;color:#c9d1d9;line-height:1.6}
+.terminal__body::-webkit-scrollbar{width:6px}
+.terminal__body::-webkit-scrollbar-thumb{background:#2a3f5f;border-radius:3px}
+.terminal__line{margin-bottom:4px;white-space:pre-wrap;word-break:break-all}
+.terminal__line--out{color:#8b9bb4;padding-left:16px}
+.terminal__prompt{color:var(--accent);font-weight:700}
+.terminal__sep{color:#6b7c93}
+.terminal__path{color:var(--accent-violet);font-weight:700}
+.terminal__text{color:#e2e8f0}
+.terminal__ok{color:#84cc16}
+.terminal__err{color:#ef4444}
+.terminal__warn{color:#f59e0b}
+.terminal__info{color:#00d9ff}
+.terminal__input-line{display:flex;align-items:center;gap:8px;padding:8px 16px 16px;font-size:.875rem}
+.terminal__input{flex:1;background:transparent;border:none;outline:none;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:.875rem;caret-color:var(--accent)}
+
+/* ===== Feature cards ===== */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,border-color .18s}
+.feature-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--accent)}
+.feature-card__icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:color-mix(in oklab,var(--accent) 10%,transparent);color:var(--accent);margin-bottom:20px}
+.feature-card__icon svg{width:24px;height:24px}
+.feature-card__title{font-size:1.125rem;font-weight:700;margin-bottom:12px}
+.feature-card__text{color:var(--text-muted);font-size:.875rem}
+
+/* ===== FAQ ===== */
+.faq{max-width:800px;margin:0 auto}
+.faq__item{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.faq__head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;cursor:pointer;font-weight:600;font-size:1rem}
+.faq__head:hover{color:var(--accent)}
+.faq__chevron{flex-shrink:0;transition:transform .3s;color:var(--text-muted)}
+.faq__item--open .faq__chevron{transform:rotate(180deg)}
+.faq__body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq__item--open .faq__body{max-height:300px}
+.faq__body-inner{padding:0 24px 24px;color:var(--text-muted);font-size:.9375rem;line-height:1.7}
+
+/* ===== CTA ===== */
+.cta{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:96px 24px;text-align:center}
+.cta__inner{background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--border);border-radius:16px;padding:64px 32px;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.cta__inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,color-mix(in oklab,var(--accent) 8%,transparent),transparent 70%);pointer-events:none}
+.cta__title{font-size:clamp(2rem,1.2rem+2.5vw,3rem);font-weight:700;margin-bottom:16px;position:relative}
+.cta__text{color:var(--text-muted);margin-bottom:32px;position:relative}
+.cta__actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ===== Footer ===== */
+.footer{position:relative;z-index:1;border-top:1px solid var(--divider);background:var(--surface-offset);padding:48px 24px}
+.footer__inner{max-width:1200px;margin:0 auto;text-align:center}
+.footer__brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:12px}
+.footer__brand svg{color:var(--accent)}
+.footer__text{color:var(--text-muted);font-size:.875rem;margin-bottom:8px}
+.footer__copy{color:var(--text-faint);font-size:.75rem}
+.footer__links{display:flex;gap:16px;justify-content:center;margin-top:12px}
+.footer__links a{color:var(--text-muted);text-decoration:none;font-size:.875rem}
+.footer__links a:hover{color:var(--accent)}
+
+/* ===== Responsive ===== */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center;padding-top:64px;min-height:auto}
+  .hero__content{order:2}
+  .hero__visual{order:1;min-height:300px}
+  .hero__badge{margin-inline:auto}
+  .hero__actions{justify-content:center}
+  .hero__subtitle{margin-inline:auto}
+  .status-strip{justify-content:center;gap:16px}
+  .status-strip__divider{display:none}
+  .nav{position:fixed;top:60px;left:0;right:0;flex-direction:column;background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;gap:8px;transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .4s,opacity .4s;z-index:49}
+  .nav--open{transform:translateY(0);opacity:1;pointer-events:auto}
+  .nav__link{padding:12px 16px;border-radius:8px}
+  .nav__link:hover{background:var(--surface-2)}
+  .menu-toggle{display:flex}
+  .features-table__head{display:none}
+  .features-table__row{grid-template-columns:1fr;gap:8px;padding:16px 20px}
+}
+@media (max-width:600px){
+  .pulse-ring{width:240px;height:240px}
+  .pulse-ring__core{width:100px;height:100px}
+  .cta__inner{padding:40px 24px}
+}
 </style>
 </head>
 <body>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-scan" aria-hidden="true"></div>
+
+<!-- Header -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#" class="logo" aria-label="NetPulse">
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <path d="M16 3L29 10.5V21.5L16 29L3 21.5V10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M8 16h3l2-5 3 11 2.5-6h5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Net<span class="logo__accent">Pulse</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#install" class="nav__link">Установка</a>
+      <a href="#features" class="nav__link">Возможности</a>
+      <a href="#demo" class="nav__link">Демо</a>
+      <a href="#faq" class="nav__link">FAQ</a>
+    </nav>
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="menu-toggle" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
 <main>
-<h1>NetPulse — проверка VPN, сети и блокировок сайтов</h1>
-<p class="lead">Бесплатная утилита с открытым кодом. Одна команда показывает ваш публичный IP и страну, задержку до серверов, DNS, срок TLS-сертификата и какие сайты заблокированы — и на каком этапе.</p>
-<div class="btns">
-<a class="btn" href="https://github.com/foridorpo-blip/netpulse/releases/latest">Скачать</a>
-<a class="btn alt" href="https://github.com/foridorpo-blip/netpulse">GitHub</a>
-</div>
-<pre>pip install git+https://github.com/foridorpo-blip/netpulse.git
-netpulse</pre>
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero__content">
+    <div class="hero__badge">
+      <span class="pulse-dot"></span>
+      <span>v1.0.0 · open source</span>
+    </div>
+    <h1 class="hero__title">
+      Проверка VPN, сети<br>
+      <span class="hero__title-accent">и блокировок сайтов</span>
+    </h1>
+    <p class="hero__subtitle">
+      Бесплатная утилита с открытым кодом. Одна команда показывает ваш публичный IP и страну,
+      задержку до серверов, DNS, срок TLS-сертификата и какие сайты заблокированы — и на каком этапе.
+      Работает на Windows, Linux и macOS без прав администратора.
+    </p>
+    <div class="hero__actions">
+      <a href="https://github.com/foridorpo-blip/netpulse/releases/latest" class="btn btn--primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Скачать
+      </a>
+      <a href="https://github.com/foridorpo-blip/netpulse" class="btn btn--ghost" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="status-strip">
+      <div class="status-strip__item">
+        <span class="status-strip__label">Платформа</span>
+        <span class="status-strip__value">Win · Linux · macOS</span>
+      </div>
+      <div class="status-strip__divider"></div>
+      <div class="status-strip__item">
+        <span class="status-strip__label">Python</span>
+        <span class="status-strip__value">3.9+</span>
+      </div>
+      <div class="status-strip__divider"></div>
+      <div class="status-strip__item">
+        <span class="status-strip__label">Зависимости</span>
+        <span class="status-strip__value">0</span>
+      </div>
+      <div class="status-strip__divider"></div>
+      <div class="status-strip__item">
+        <span class="status-strip__label">Лицензия</span>
+        <span class="status-strip__value">MIT</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero__visual">
+    <div class="pulse-ring" aria-hidden="true">
+      <div class="pulse-ring__ring"></div>
+      <div class="pulse-ring__ring"></div>
+      <div class="pulse-ring__ring"></div>
+      <div class="pulse-ring__core">
+        <span class="pulse-ring__bpm" id="pulseBpm">60</span>
+        <span class="pulse-ring__unit">bpm</span>
+      </div>
+    </div>
+    <canvas id="waveformCanvas" class="waveform" aria-label="Анимация пульса сети"></canvas>
+  </div>
+</section>
 
-<h2>Возможности</h2>
-<table>
-<tr><td><code>netpulse ip</code></td><td>Публичный IP, страна, город, провайдер — проверка, работает ли VPN</td></tr>
-<tr><td><code>netpulse ping</code></td><td>TCP-пинг без прав администратора: задержка, jitter, потери</td></tr>
-<tr><td><code>netpulse dns</code></td><td>A и AAAA-записи домена</td></tr>
-<tr><td><code>netpulse tls</code></td><td>Версия TLS, издатель и срок действия SSL-сертификата</td></tr>
-<tr><td><code>netpulse sites</code></td><td>Проверка блокировок: DNS, IP, DPI/SNI-фильтрация, подмена сертификата</td></tr>
-<tr><td><code>--json</code></td><td>Вывод в JSON для скриптов, мониторинга и Telegram-ботов</td></tr>
-</table>
+<!-- Install -->
+<section class="section" id="install">
+  <div class="section__head">
+    <h2 class="section__title">Установка</h2>
+    <p class="section__desc">Выберите удобный способ. Готовый файл — без установки, или через pip.</p>
+  </div>
+  <div class="install">
+    <div class="install__head">
+      <div class="install__tabs">
+        <button class="install__tab install__tab--active" data-tab="pyz">Готовый файл</button>
+        <button class="install__tab" data-tab="pip">pip install</button>
+        <button class="install__tab" data-tab="git">Из исходников</button>
+      </div>
+    </div>
+    <div class="install__body">
+      <div class="install__block install__block--active" data-block="pyz">
+        <div class="code-block"><span class="code-block__comment"># Скачайте netpulse.pyz из релизов и запустите:</span>
+<span class="code-block__prompt">$</span> python netpulse.pyz</div>
+        <button class="copy-btn" data-copy="python netpulse.pyz">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Копировать
+        </button>
+      </div>
+      <div class="install__block" data-block="pip">
+        <div class="code-block"><span class="code-block__prompt">$</span> pip install git+https://github.com/foridorpo-blip/netpulse.git
+<span class="code-block__prompt">$</span> netpulse</div>
+        <button class="copy-btn" data-copy="pip install git+https://github.com/foridorpo-blip/netpulse.git">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Копировать
+        </button>
+      </div>
+      <div class="install__block" data-block="git">
+        <div class="code-block"><span class="code-block__prompt">$</span> git clone https://github.com/foridorpo-blip/netpulse.git
+<span class="code-block__prompt">$</span> cd netpulse
+<span class="code-block__prompt">$</span> python -m netpulse</div>
+        <button class="copy-btn" data-copy="git clone https://github.com/foridorpo-blip/netpulse.git&#10;cd netpulse&#10;python -m netpulse">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Копировать
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h2>Пример</h2>
-<pre>Доступность сервисов
-  ● google.com               54 мс
-  ● github.com               61 мс
-  ● discord.com            TLS   TLS сброшен (DPI?)
-  ● x.com                  DNS   домен не резолвится
-  Доступно 10 из 12</pre>
+<!-- Features -->
+<section class="section section--alt" id="features">
+  <div class="section__head">
+    <h2 class="section__title">Возможности</h2>
+    <p class="section__desc">Шесть команд — полная картина вашей сети и VPN.</p>
+  </div>
+  <div class="features-table">
+    <div class="features-table__head">
+      <span>Команда</span>
+      <span>Что делает</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">netpulse ip</span>
+      <span class="features-table__desc">Публичный IP, страна, город, провайдер — проверка, работает ли VPN</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">netpulse ping</span>
+      <span class="features-table__desc">TCP-пинг без прав администратора: задержка, jitter, потери</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">netpulse dns</span>
+      <span class="features-table__desc">A и AAAA-записи домена</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">netpulse tls</span>
+      <span class="features-table__desc">Версия TLS, издатель и срок действия SSL-сертификата</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">netpulse sites</span>
+      <span class="features-table__desc">Проверка блокировок: DNS, IP, DPI/SNI-фильтрация, подмена сертификата</span>
+    </div>
+    <div class="features-table__row">
+      <span class="features-table__cmd">--json</span>
+      <span class="features-table__desc">Вывод в JSON для скриптов, мониторинга и Telegram-ботов</span>
+    </div>
+  </div>
+</section>
 
-<h2>Частые вопросы</h2>
-<p><b>Как проверить, работает ли VPN?</b> Запустите <code>netpulse ip</code> — утилита покажет страну и провайдера вашего IP и предупредит, если часовой пояс системы не совпадает с поясом IP.</p>
-<p><b>Как понять, почему не открывается сайт?</b> <code>netpulse sites example.com</code> покажет, где обрывается соединение: на DNS, TCP или TLS.</p>
-<p><b>Нужны ли зависимости?</b> Нет, только Python 3.9+. Есть готовый файл <code>netpulse.pyz</code> в релизах.</p>
+<!-- Demo terminal -->
+<section class="section" id="demo">
+  <div class="section__head">
+    <h2 class="section__title">Живое демо</h2>
+    <p class="section__desc">Интерактивный терминал. Введите <code>help</code>, <code>ip</code>, <code>ping</code>, <code>sites</code>, <code>tls</code>, <code>dns</code> или <code>clear</code>.</p>
+  </div>
+  <div class="terminal">
+    <div class="terminal__bar">
+      <span class="terminal__dot terminal__dot--red"></span>
+      <span class="terminal__dot terminal__dot--yellow"></span>
+      <span class="terminal__dot terminal__dot--green"></span>
+      <span class="terminal__title">netpulse — demo terminal</span>
+    </div>
+    <div class="terminal__body" id="terminalBody" tabindex="0">
+      <div class="terminal__line"><span class="terminal__info">NetPulse v1.0.0 — интерактивное демо</span></div>
+      <div class="terminal__line terminal__line--out">Введите <span class="terminal__ok">help</span> для списка команд.</div>
+      <div class="terminal__line terminal__line--out">Данные симулированы для демонстрации.</div>
+    </div>
+    <form class="terminal__input-line" id="terminalForm">
+      <span class="terminal__prompt">netpulse</span><span class="terminal__sep">:</span><span class="terminal__path">~$</span>
+      <input type="text" class="terminal__input" id="terminalInput" autocomplete="off" spellcheck="false" aria-label="Ввод команды" />
+    </form>
+  </div>
+</section>
 
-<footer>NetPulse · MIT License · <a href="https://github.com/foridorpo-blip/netpulse">исходный код</a></footer>
+<!-- Feature cards -->
+<section class="section section--alt">
+  <div class="section__head">
+    <h2 class="section__title">Почему NetPulse</h2>
+    <p class="section__desc">Просто, быстро, без зависимостей.</p>
+  </div>
+  <div class="features-grid">
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3" stroke-linecap="round"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3 class="feature-card__title">Без зависимостей</h3>
+      <p class="feature-card__text">Только стандартная библиотека Python 3.9+. Один файл <code>netpulse.pyz</code> — готов к запуску.</p>
+    </article>
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3-8 4 16 3-8h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="feature-card__title">TCP-пинг</h3>
+      <p class="feature-card__text">Пинг по TCP без прав администратора: задержка, jitter и потери пакетов.</p>
+    </article>
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" stroke-linecap="round"/></svg>
+      </div>
+      <h3 class="feature-card__title">Проверка VPN</h3>
+      <p class="feature-card__text">Показывает страну и провайдера IP и предупредит, если часовой пояс системы не совпадает с поясом IP.</p>
+    </article>
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18M8 14h2" stroke-linecap="round"/></svg>
+      </div>
+      <h3 class="feature-card__title">Проверка блокировок</h3>
+      <p class="feature-card__text">Покажет, где обрывается соединение: DNS, TCP, TLS или DPI/SNI-фильтрация.</p>
+    </article>
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L3 7v6c0 5 3.5 8 9 9 5.5-1 9-4 9-9V7z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 class="feature-card__title">TLS-сертификаты</h3>
+      <p class="feature-card__text">Версия TLS, издатель и срок действия SSL-сертификата — на каком сайте истекает.</p>
+    </article>
+    <article class="feature-card">
+      <div class="feature-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3" stroke-linecap="round"/><path d="M9 12h6M12 9v6" stroke-linecap="round"/></svg>
+      </div>
+      <h3 class="feature-card__title">JSON-вывод</h3>
+      <p class="feature-card__text">Флаг <code>--json</code> для скриптов, мониторинга и Telegram-ботов.</p>
+    </article>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section__head">
+    <h2 class="section__title">Частые вопросы</h2>
+    <p class="section__desc">Короткие ответы на основные вопросы.</p>
+  </div>
+  <div class="faq">
+    <div class="faq__item">
+      <div class="faq__head" data-faq>
+        Как проверить, работает ли VPN?
+        <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq__body">
+        <div class="faq__body-inner">
+          Запустите <code>netpulse ip</code> — утилита покажет страну и провайдера вашего IP и предупредит, если часовой пояс системы не совпадает с поясом IP.
+        </div>
+      </div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__head" data-faq>
+        Как понять, почему не открывается сайт?
+        <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq__body">
+        <div class="faq__body-inner">
+          <code>netpulse sites example.com</code> покажет, где обрывается соединение: на DNS, TCP или TLS. Также обнаруживает DPI/SNI-фильтрацию и подмену сертификата.
+        </div>
+      </div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__head" data-faq>
+        Нужны ли зависимости?
+        <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq__body">
+        <div class="faq__body-inner">
+          Нет, только Python 3.9+. Есть готовый файл <code>netpulse.pyz</code> в релизах — скачиваете и запускаете.
+        </div>
+      </div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__head" data-faq>
+        На каких платформах работает?
+        <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq__body">
+        <div class="faq__body-inner">
+          Windows, Linux и macOS. Без прав администратора — TCP-пинг вместо ICMP.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta__inner">
+    <h2 class="cta__title">Готовы проверить сеть?</h2>
+    <p class="cta__text">Скачайте NetPulse и запустите первую команду за 10 секунд.</p>
+    <div class="cta__actions">
+      <a href="https://github.com/foridorpo-blip/netpulse/releases/latest" class="btn btn--primary" target="_blank" rel="noopener">Скачать</a>
+      <a href="https://github.com/foridorpo-blip/netpulse" class="btn btn--ghost" target="_blank" rel="noopener">Исходный код</a>
+    </div>
+  </div>
+</section>
 </main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+        <path d="M16 3L29 10.5V21.5L16 29L3 21.5V10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M8 16h3l2-5 3 11 2.5-6h5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>NetPulse</span>
+    </div>
+    <p class="footer__text">Бесплатная утилита для диагностики сети и VPN. Все метрики в демо симулированы.</p>
+    <div class="footer__links">
+      <a href="https://github.com/foridorpo-blip/netpulse">GitHub</a>
+      <a href="https://github.com/foridorpo-blip/netpulse/releases/latest">Релизы</a>
+      <a href="https://github.com/foridorpo-blip/netpulse/blob/main/LICENSE">MIT License</a>
+    </div>
+    <p class="footer__copy">© 2025 NetPulse · MIT License</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ===== Theme toggle ===== */
+  var root=document.documentElement,themeToggle=document.querySelector('[data-theme-toggle]');
+  var sunIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  var moonIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  var theme='dark';
+  function applyTheme(t){root.setAttribute('data-theme',t);if(themeToggle){themeToggle.setAttribute('aria-label','Переключить на '+(t==='dark'?'светлую':'тёмную')+' тему');themeToggle.innerHTML=t==='dark'?moonIcon:sunIcon;}}
+  applyTheme(theme);
+  if(themeToggle){themeToggle.addEventListener('click',function(){theme=theme==='dark'?'light':'dark';applyTheme(theme);});}
+
+  /* ===== Header scroll ===== */
+  var header=document.getElementById('header'),lastScroll=0;
+  window.addEventListener('scroll',function(){var s=window.scrollY;if(s>10)header.classList.add('header--scrolled');else header.classList.remove('header--scrolled');if(s>lastScroll&&s>200)header.classList.add('header--hidden');else header.classList.remove('header--hidden');lastScroll=s;},{passive:true});
+
+  /* ===== Mobile menu ===== */
+  var menuToggle=document.querySelector('.menu-toggle'),nav=document.querySelector('.nav');
+  if(menuToggle&&nav){menuToggle.addEventListener('click',function(){var o=nav.classList.toggle('nav--open');menuToggle.setAttribute('aria-expanded',o?'true':'false');});nav.querySelectorAll('.nav__link').forEach(function(l){l.addEventListener('click',function(){nav.classList.remove('nav--open');menuToggle.setAttribute('aria-expanded','false');});});}
+
+  /* ===== Install tabs ===== */
+  document.querySelectorAll('.install__tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var target=tab.getAttribute('data-tab');
+      document.querySelectorAll('.install__tab').forEach(function(t){t.classList.remove('install__tab--active');});
+      document.querySelectorAll('.install__block').forEach(function(b){b.classList.remove('install__block--active');});
+      tab.classList.add('install__tab--active');
+      document.querySelector('[data-block="'+target+'"]').classList.add('install__block--active');
+    });
+  });
+
+  /* ===== Copy buttons ===== */
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var text=btn.getAttribute('data-copy');
+      navigator.clipboard.writeText(text).then(function(){
+        btn.classList.add('copy-btn--copied');
+        var orig=btn.innerHTML;
+        btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Скопировано';
+        setTimeout(function(){btn.classList.remove('copy-btn--copied');btn.innerHTML=orig;},2000);
+      });
+    });
+  });
+
+  /* ===== FAQ accordion ===== */
+  document.querySelectorAll('[data-faq]').forEach(function(head){
+    head.addEventListener('click',function(){
+      var item=head.parentElement;
+      var isOpen=item.classList.contains('faq__item--open');
+      document.querySelectorAll('.faq__item').forEach(function(i){i.classList.remove('faq__item--open');});
+      if(!isOpen)item.classList.add('faq__item--open');
+    });
+  });
+
+  /* ===== Pulse BPM ===== */
+  var bpmEl=document.getElementById('pulseBpm'),bpm=60;
+  function updateBpm(){bpm=Math.max(55,Math.min(72,bpm+(Math.random()<.5?-1:1)*Math.floor(Math.random()*3)));if(bpmEl)bpmEl.textContent=bpm;}
+  setInterval(updateBpm,2000);
+
+  /* ===== Waveform canvas ===== */
+  var wc=document.getElementById('waveformCanvas'),wctx=wc?wc.getContext('2d'):null,wdata=[],wtime=0;
+  if(wc){for(var i=0;i<120;i++)wdata.push(0);}
+  function drawWave(){
+    if(!wctx||!wc)return;
+    var dpr=window.devicePixelRatio||1,w=wc.offsetWidth||400,h=400;
+    wc.width=w*dpr;wc.height=h*dpr;wctx.scale(dpr,dpr);
+    wctx.clearRect(0,0,w,h);
+    var isDark=root.getAttribute('data-theme')==='dark';
+    var color=isDark?'rgba(62,207,142,0.5)':'rgba(0,102,204,0.35)';
+    wtime+=.05;
+    wdata.push(Math.sin(wtime*3)*.3+Math.sin(wtime*7)*.15+(Math.random()-.5)*.1);
+    if(wdata.length>120)wdata.shift();
+    var midY=h/2,step=w/(wdata.length-1);
+    wctx.beginPath();
+    wdata.forEach(function(v,i){var x=i*step;var beat=Math.sin(wtime*2+i*.3);var spike=Math.abs(beat)>.95?v*1.5:v;var y=midY+spike*(h*.25);if(i===0)wctx.moveTo(x,y);else wctx.lineTo(x,y);});
+    wctx.strokeStyle=color;wctx.lineWidth=2;wctx.lineJoin='round';wctx.lineCap='round';wctx.stroke();
+  }
+  setInterval(drawWave,50);
+
+  /* ===== Terminal ===== */
+  var tbody=document.getElementById('terminalBody'),tform=document.getElementById('terminalForm'),tinput=document.getElementById('terminalInput'),cmdHist=[],histIdx=-1;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function addLine(html,type){var l=document.createElement('div');l.className='terminal__line'+(type==='out'?' terminal__line--out':'');l.innerHTML=html;tbody.appendChild(l);tbody.scrollTop=tbody.scrollHeight;}
+  function addCmd(cmd){addLine('<span class="terminal__prompt">netpulse</span><span class="terminal__sep">:</span><span class="terminal__path">~$</span> <span class="terminal__text">'+esc(cmd)+'</span>');}
+
+  var commands={
+    help:function(){addLine('<span class="terminal__info">Доступные команды:</span>','out');addLine('  ip          — публичный IP, страна, провайдер','out');addLine('  ping [host] — TCP-пинг: задержка, jitter, потери','out');addLine('  dns [domain]— A и AAAA-записи','out');addLine('  tls [domain]— TLS-версия, сертификат','out');addLine('  sites [domains] — проверка блокировок','out');addLine('  clear       — очистить экран','out');},
+    ip:function(){var countries=['Нидерланды','Германия','США','Франция','Япония','Великобритания'];var cities=['Амстердам','Франкфурт','Нью-Йорк','Париж','Токио','Лондон'];var providers=['LeaseWeb','Hetzner','DigitalOcean','OVH','AWS','Linode'];var ci=Math.floor(Math.random()*countries.length);addLine('<span class="terminal__ok">●</span> IP: 185.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255),'out');addLine('  Страна:    '+countries[ci],'out');addLine('  Город:     '+cities[ci],'out');addLine('  Провайдер: '+providers[ci],'out');addLine('  Часовой пояс IP: UTC'+(ci<3?'+1':ci<5?'+9':'+0'),'out');},
+    ping:function(args){var host=args[0]||'1.1.1.1';addLine('TCP-пинг до '+host+':443...','out');var count=4,i=0;function step(){if(i>=count){addLine('','out');addLine('Статистика: 4 отправлено, 4 получено, 0% потерь','out');addLine('Мин/Сред/Макс: '+Math.floor(Math.random()*10+15)+' / '+Math.floor(Math.random()*10+20)+' / '+Math.floor(Math.random()*10+30)+' мс','out');return;}var lat=Math.floor(Math.random()*20+15);addLine('  seq='+(i+1)+' time='+lat+'ms','out');i++;setTimeout(step,500);}step();},
+    dns:function(args){var domain=args[0]||'example.com';addLine('DNS-запрос: '+domain,'out');addLine('  A:    '+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255),'out');addLine('  AAAA: 2a00:'+Math.floor(Math.random()*9999)+':'+Math.floor(Math.random()*9999)+'::'+Math.floor(Math.random()*9999),'out');},
+    tls:function(args){var domain=args[0]||'example.com';addLine('TLS-проверка: '+domain+':443','out');addLine('  Версия:     TLS 1.3','out');addLine('  Шифр:       TLS_AES_256_GCM_SHA384','out');addLine('  Издатель:   Let\'s Encrypt R3','out');addLine('  Действителен до: '+(Math.floor(Math.random()*28)+1)+' марта 2026','out');addLine('  <span class="terminal__ok">✓ Сертификат действителен</span>','out');},
+    sites:function(args){var sites=args.length?args:['google.com','github.com','discord.com','x.com'];addLine('Проверка доступности сервисов...','out');var ok=0;var i=0;function check(){if(i>=sites.length){addLine('','out');addLine('Доступно: '+ok+' из '+sites.length,'out');return;}var s=sites[i];var r=Math.random();if(r<.6){var lat=Math.floor(Math.random()*30+30);addLine('  <span class="terminal__ok">●</span> '+s.padEnd(20)+' '+lat+' мс','out');ok++;}else if(r<.8){addLine('  <span class="terminal__err">●</span> '+s.padEnd(20)+' TLS сброшен (DPI?)','out');}else{addLine('  <span class="terminal__warn">●</span> '+s.padEnd(20)+' DNS: домен не резолвится','out');}i++;setTimeout(check,400);}check();},
+    clear:function(){tbody.innerHTML='';}
+  };
+
+  function runCmd(raw){var cmd=raw.trim();if(!cmd)return;addCmd(cmd);var parts=cmd.split(/\s+/);var name=parts[0].toLowerCase();var args=parts.slice(1);if(commands[name]){commands[name](args);}else{addLine('netpulse: команда не найдена: '+esc(name)+' — введите <span class="terminal__ok">help</span>','out');}}
+
+  if(tform){tform.addEventListener('submit',function(e){e.preventDefault();var v=tinput.value;if(v.trim()){cmdHist.unshift(v);if(cmdHist.length>20)cmdHist.pop();histIdx=-1;runCmd(v);}tinput.value='';});tinput.addEventListener('keydown',function(e){if(e.key==='ArrowUp'){e.preventDefault();if(cmdHist.length>0&&histIdx<cmdHist.length-1){histIdx++;tinput.value=cmdHist[histIdx];}}else if(e.key==='ArrowDown'){e.preventDefault();if(histIdx>0){histIdx--;tinput.value=cmdHist[histIdx];}else{histIdx=-1;tinput.value='';}}});if(tbody){tbody.addEventListener('click',function(){tinput.focus();});}}
+
+  /* ===== Smooth scroll ===== */
+  document.querySelectorAll('a[href^="#"]').forEach(function(l){l.addEventListener('click',function(e){var h=l.getAttribute('href');if(h==='#'||h==='#hero'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});return;}var t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
+
+})();
+</script>
 </body>
 </html>
