@@ -1,4 +1,11 @@
-# NetPulse
+# NetPulse — проверка VPN, сети и блокировок сайтов
+
+[![Release](https://img.shields.io/github/v/release/foridorpo-blip/netpulse)](https://github.com/foridorpo-blip/netpulse/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/foridorpo-blip/netpulse/total)](https://github.com/foridorpo-blip/netpulse/releases)
+[![Stars](https://img.shields.io/github/stars/foridorpo-blip/netpulse?style=flat)](https://github.com/foridorpo-blip/netpulse/stargazers)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+Сайт: https://foridorpo-blip.github.io/netpulse/
 
 Быстрая диагностика сети и VPN из терминала. Один файл, только стандартная библиотека Python — ставится за секунды и работает на Windows, Linux и macOS без прав администратора.
 
@@ -16,6 +23,14 @@
 Флаг `--json` выводит результат в JSON — удобно для скриптов, ботов и мониторинга.
 
 ## Установка
+
+Готовый файл без установки — скачайте `netpulse.pyz` из [последнего релиза](https://github.com/foridorpo-blip/netpulse/releases/latest) и запустите:
+
+```bash
+python netpulse.pyz
+```
+
+Через pip:
 
 ```bash
 pip install git+https://github.com/foridorpo-blip/netpulse.git
@@ -68,3 +83,7 @@ Python 3.9+. Внешних зависимостей нет.
 ## Лицензия
 
 MIT
+
+---
+
+English: NetPulse is a zero-dependency Python CLI for VPN and network diagnostics — public IP & geolocation, TCP ping, DNS lookup, TLS certificate expiry, and website blocking detection (DNS / IP / DPI / MITM).

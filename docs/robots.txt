@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://foridorpo-blip.github.io/netpulse/sitemap.xml

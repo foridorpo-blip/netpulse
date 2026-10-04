@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPulse — проверка VPN, IP, DNS, TLS и блокировок сайтов | бесплатная утилита</title>
+<meta name="description" content="NetPulse — бесплатная консольная утилита для проверки VPN и сети: публичный IP и страна, TCP-пинг, DNS, срок TLS-сертификата, проверка блокировок сайтов (DNS, IP, DPI). Windows, Linux, macOS.">
+<meta name="keywords" content="проверка vpn, проверить ip, проверка блокировок сайтов, dpi, tcp ping, dns lookup, проверка ssl сертификата, vpn checker, network diagnostics, python cli">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://foridorpo-blip.github.io/netpulse/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NetPulse — проверка VPN, сети и блокировок">
+<meta property="og:description" content="Публичный IP, TCP-пинг, DNS, TLS и проверка блокировок одной командой. Бесплатно, open source.">
+<meta property="og:url" content="https://foridorpo-blip.github.io/netpulse/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"NetPulse","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, Linux, macOS","softwareVersion":"1.0.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Консольная утилита для диагностики сети и VPN: IP, TCP-пинг, DNS, TLS, проверка блокировок сайтов.","url":"https://foridorpo-blip.github.io/netpulse/","downloadUrl":"https://github.com/foridorpo-blip/netpulse/releases/latest","codeRepository":"https://github.com/foridorpo-blip/netpulse","license":"https://opensource.org/licenses/MIT"}
+</script>
+<style>
+:root{--bg:#0f1214;--fg:#e6e8e9;--mut:#9aa3a8;--acc:#3ecf8e;--card:#171b1e;--line:#262c30}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:860px;margin:0 auto;padding:56px 20px}
+h1{font-size:2.4rem;line-height:1.15;margin:0 0 12px}h2{margin-top:44px;font-size:1.4rem}
+p.lead{color:var(--mut);font-size:1.15rem;max-width:640px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+a.btn{background:var(--acc);color:#06140d;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:600}
+a.btn.alt{background:transparent;color:var(--fg);border:1px solid var(--line)}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;overflow:auto;font:14px/1.5 ui-monospace,Consolas,monospace}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--line);padding:9px 6px;text-align:left;vertical-align:top}
+code{font-family:ui-monospace,Consolas,monospace;color:var(--acc)}footer{color:var(--mut);margin-top:56px;font-size:.9rem}
+a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<h1>NetPulse — проверка VPN, сети и блокировок сайтов</h1>
+<p class="lead">Бесплатная утилита с открытым кодом. Одна команда показывает ваш публичный IP и страну, задержку до серверов, DNS, срок TLS-сертификата и какие сайты заблокированы — и на каком этапе.</p>
+<div class="btns">
+<a class="btn" href="https://github.com/foridorpo-blip/netpulse/releases/latest">Скачать</a>
+<a class="btn alt" href="https://github.com/foridorpo-blip/netpulse">GitHub</a>
+</div>
+<pre>pip install git+https://github.com/foridorpo-blip/netpulse.git
+netpulse</pre>
+
+<h2>Возможности</h2>
+<table>
+<tr><td><code>netpulse ip</code></td><td>Публичный IP, страна, город, провайдер — проверка, работает ли VPN</td></tr>
+<tr><td><code>netpulse ping</code></td><td>TCP-пинг без прав администратора: задержка, jitter, потери</td></tr>
+<tr><td><code>netpulse dns</code></td><td>A и AAAA-записи домена</td></tr>
+<tr><td><code>netpulse tls</code></td><td>Версия TLS, издатель и срок действия SSL-сертификата</td></tr>
+<tr><td><code>netpulse sites</code></td><td>Проверка блокировок: DNS, IP, DPI/SNI-фильтрация, подмена сертификата</td></tr>
+<tr><td><code>--json</code></td><td>Вывод в JSON для скриптов, мониторинга и Telegram-ботов</td></tr>
+</table>
+
+<h2>Пример</h2>
+<pre>Доступность сервисов
+  ● google.com               54 мс
+  ● github.com               61 мс
+  ● discord.com            TLS   TLS сброшен (DPI?)
+  ● x.com                  DNS   домен не резолвится
+  Доступно 10 из 12</pre>
+
+<h2>Частые вопросы</h2>
+<p><b>Как проверить, работает ли VPN?</b> Запустите <code>netpulse ip</code> — утилита покажет страну и провайдера вашего IP и предупредит, если часовой пояс системы не совпадает с поясом IP.</p>
+<p><b>Как понять, почему не открывается сайт?</b> <code>netpulse sites example.com</code> покажет, где обрывается соединение: на DNS, TCP или TLS.</p>
+<p><b>Нужны ли зависимости?</b> Нет, только Python 3.9+. Есть готовый файл <code>netpulse.pyz</code> в релизах.</p>
+
+<footer>NetPulse · MIT License · <a href="https://github.com/foridorpo-blip/netpulse">исходный код</a></footer>
+</main>
+</body>
+</html>
