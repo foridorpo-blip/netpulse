@@ -84,7 +84,7 @@ Python 3.9+. Внешних зависимостей нет.
 
 ## Лицензия
 
-MIT
+MIT © 2026 [foridorpo-blip](https://github.com/foridorpo-blip)
 
 ---
 

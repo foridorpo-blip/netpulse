@@ -9,6 +9,7 @@ description = "Быстрая диагностика сети и VPN: IP, TCP-п
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
+authors = [{ name = "foridorpo-blip" }]
 keywords = ["network", "vpn", "dns", "tls", "ping", "diagnostics", "cli"]
 classifiers = [
   "Programming Language :: Python :: 3",
